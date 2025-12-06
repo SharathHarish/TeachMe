@@ -27,7 +27,7 @@ body {
 /* ==================== Navbar ==================== */
 header.navbar {
   background: linear-gradient(90deg, #4f46e5, #6366f1);
-  padding: 16px 40px;
+  padding: 6px 30px;   /* reduced from 16px */
   box-shadow: var(--shadow);
 }
 
@@ -36,10 +36,11 @@ header.navbar nav {
   justify-content: space-between;
   align-items: center;
 }
-
 header.navbar .logo {
-  height: 60px;
-  width: 80px;
+  height: 75px;         /* Keep only one dimension */
+  width: auto;          /* Let width scale naturally */
+  object-fit: contain;  /* Ensures image fills area without distortion */
+  display: block;
 }
 
 header.navbar .nav-links {
