@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar"></div>
+  <script>
+    fetch("navbar.html")
+      .then(r => r.text())
+      .then(d => { document.getElementById("navbar").innerHTML = d; });
+  </script>
+
+    <main class="chat-container">
+    <section class="card chat-box">
+      <h2>💬 Messages</h2>
+      <div id="chatBox" class="chat-messages"></div>
+
+      <form id="msgForm" class="chat-form">
+        <input id="msgInput" type="text" placeholder="Type your message..." required>
+        <button type="submit" class="btn-primary">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="messages.js"></script>
+</body>
+</html>
