@@ -7,14 +7,16 @@ import {
   where
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-const studentsList = document.getElementById("studentsList");
+const studentsList = document.getElementById("studentsList"); // All students
+const approvedList = document.getElementById("approvedList"); // Approved students
 
 window.addEventListener("DOMContentLoaded", () => {
   loadStudents();
+  loadApprovedStudents();
 });
 
 // -------------------------
-// LOAD STUDENTS
+// LOAD ALL STUDENTS
 // -------------------------
 async function loadStudents() {
   studentsList.innerHTML = `<tr><td colspan="6">Loading...</td></tr>`;
@@ -50,10 +52,43 @@ async function loadStudents() {
 }
 
 // -------------------------
+// LOAD APPROVED STUDENTS
+// -------------------------
+async function loadApprovedStudents() {
+  approvedList.innerHTML = `<tr><td colspan="6">Loading...</td></tr>`;
+
+  try {
+    const usersSnapshot = await getDocs(query(collection(db, "users"), where("access", "==", "a")));
+    approvedList.innerHTML = "";
+
+    if (usersSnapshot.empty) {
+      approvedList.innerHTML = `<tr><td colspan="6">No approved students found.</td></tr>`;
+      return;
+    }
+
+    // For each approved user, get student details from "student" collection
+    for (const userDoc of usersSnapshot.docs) {
+      const sid = userDoc.data().id;
+      const studentQuery = query(collection(db, "student"), where("sid", "==", sid));
+      const studentSnap = await getDocs(studentQuery);
+
+      if (!studentSnap.empty) {
+        const s = studentSnap.docs[0].data();
+        approvedList.innerHTML += createApprovedRow(s);
+      }
+    }
+
+  } catch (err) {
+    console.error("Error loading approved students:", err);
+    approvedList.innerHTML = `<tr><td colspan="6">Failed to load approved students.</td></tr>`;
+  }
+}
+
+// -------------------------
 // CREATE TABLE ROW
 // -------------------------
 function createRow(s, access) {
-  const btnText = access === "a" ? "Reject" : "Grant Access";
+  const btnText = access === "a" ? "Revoke Access" : "Approve Access";
   const btnClass = access === "a" ? "btn-danger" : "btn-success";
 
   return `
@@ -71,6 +106,22 @@ function createRow(s, access) {
 }
 
 // -------------------------
+// CREATE APPROVED STUDENT ROW
+// -------------------------
+function createApprovedRow(s) {
+  return `
+    <tr>
+      <td>${s.sid}</td>
+      <td>${s.sname}</td>
+      <td>${s.semail}</td>
+      <td>${s.sclass}</td>
+      <td>${s.sphone}</td>
+      <td>Approved</td>
+    </tr>
+  `;
+}
+
+// -------------------------
 // TOGGLE ACCESS
 // -------------------------
 window.toggleAccess = async function(sid) {
@@ -83,15 +134,12 @@ window.toggleAccess = async function(sid) {
       return;
     }
 
-    // Get the first matched document
     const docRef = snapshot.docs[0].ref;
     const currentAccess = snapshot.docs[0].data().access;
     const newAccess = currentAccess === "a" ? "r" : "a";
 
-    // Update Firestore
     await updateDoc(docRef, { access: newAccess });
 
-    // Update button instantly
     const btn = document.getElementById(`toggle-${sid}`);
     if (newAccess === "a") {
       btn.textContent = "Revoke Access";
@@ -102,6 +150,9 @@ window.toggleAccess = async function(sid) {
     }
 
     console.log(`Student ${sid} access updated to: ${newAccess}`);
+
+    // Refresh approved students table
+    loadApprovedStudents();
 
   } catch (err) {
     console.error("Error toggling student access:", err);

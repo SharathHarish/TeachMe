@@ -1,146 +1,129 @@
-/* ==================== Navbar Modern Styling ==================== */
-
-/* Navbar container */
-header.navbar {
-  background: #1D4ED8; /* Professional blue */
-  padding: 14px 40px;
+/* ==================== Variables ==================== */
+:root {
+  --primary: #4f46e5;       /* Modern deep purple for navbar */
+  --primary-hover: #6366f1; /* Hover for buttons / links */
+  --success: #22c55e;       /* Vibrant green for approve */
+  --danger: #ef4444;        /* Bright red for revoke */
+  --bg-light: #fcf8f0;      /* Light gray background */
+  --card-bg: #ffffff;        /* Card/Table background */
+  --text-dark: #111827;     /* Dark text */
+  --text-light: #ffffff;    /* Light text */
+  --shadow: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-hover: 0 12px 30px rgba(0,0,0,0.16);
+  --border-radius: 12px;
 }
 
-/* Flex container for logo and links */
+/* ==================== Body & Layout ==================== */
+body {
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-light);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* ==================== Navbar ==================== */
+header.navbar {
+  background: linear-gradient(90deg, #4f46e5, #6366f1);
+  padding: 16px 40px;
+  box-shadow: var(--shadow);
+}
+
 header.navbar nav {
   display: flex;
-  justify-content: space-between; /* logo left, links right */
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Logo styling */
 header.navbar .logo {
-  height: 60px; /* adjust as needed */
+  height: 60px;
   width: 80px;
 }
 
-/* Links container */
 header.navbar .nav-links {
   display: flex;
-  gap: 25px; /* space between links */
+  gap: 30px;
 }
 
-/* Navbar links */
 header.navbar .nav-links a {
-  color: #FFFFFF;
+  color: var(--text-light);
   text-decoration: none;
   font-weight: 600;
   font-size: 16px;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: background 0.3s;
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  transition: all 0.3s ease;
 }
 
 header.navbar .nav-links a:hover {
-  background: #3B82F6; /* hover effect */
+  background: var(--primary-hover);
+  transform: translateY(-2px);
 }
 
-/* ==================== End Navbar Modern Styling ==================== */
-
-/* ------------------ Existing CSS Below ------------------ */
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+/* ==================== Dashboard ==================== */
+.dashboard {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-/* Body */
-body {
-  background: #FFF8F0; /* Soft cream background */
-  color: #1F2937;      /* Dark gray text */
-  line-height: 1.6;
+.dashboard h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  color: var(--primary);
 }
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
+
+.hero {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  z-index: 1000;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: #8e24aa;
+}
+.hero-content h1 span {
+  color: #ec407a;
+}
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #2d1436;
+}
+.hero-content button {
+  background: #ba68c8;
+  color: white;
+}
+.hero-content button:hover {
+  background: #8e24aa;
 }
 
-.popup {
-  background: #FFF8F0;
-  padding: 25px;
-  border-radius: 12px;
-  width: 350px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  /* Soft theme-matched gradient */
+  background: linear-gradient(135deg, #FFF8F0 0%, #FDF7F0 40%, #E0ECFF 100%);
 }
 
-.popup input {
-  width: 100%;
-  margin: 8px 0;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #D1D5DB;
-  background: #FDF7F0;
-}
-
-/* Buttons */
-button, .btn-primary {
-  background: #1D4ED8;
-  color: #FFFFFF;
-  border: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-button:hover, .btn-primary:hover {
-  background: #3B82F6;
-}
-
-/* Secondary / Danger Buttons */
-.logout-btn, .btn-danger {
-  background: #EF4444; /* Red for logout/danger */
-  color: #FFFFFF;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s;
-}
-.logout-btn:hover, .btn-danger:hover {
-  background: #DC2626;
-}
-
-.btn-success {
-  background: #10B981; /* Green */
-  color: #FFFFFF;
-  border: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s;
 }
 
 /* Inputs */
 form input, .chat-input input {
-  background: #FDF7F0; /* Slightly lighter than background */
-  color: #1F2937;
-  border: 1px solid #D1D5DB;
+  background: #f8bbd0;
+  color: #2d1436;
+  border: 1px solid #ce93d8;
   border-radius: 6px;
   padding: 10px;
 }
 form input::placeholder, .chat-input input::placeholder {
-  color: #6B7280;
+  color: #6d4c71;
 }
 
-/* Auth Card */
+/* Auth Page */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -151,28 +134,33 @@ form input::placeholder, .chat-input input::placeholder {
 }
 
 .auth-card {
-  background: #FDF7F0; /* Card color slightly lighter */
+  background: white;
   padding: 30px 25px;
   border-radius: 12px;
   width: 320px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   text-align: center;
 }
 
+/* Auth Form Inputs */
 .auth-card form input {
   width: 100%;
   margin: 8px 0;
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid #D1D5DB;
-  background: #FDF7F0;
-  color: #1F2937;
+  border: 1px solid #ce93d8;
+  background: #fce4ec;
+  color: #2d1436;
   outline: none;
 }
 
 .auth-card form input:focus {
-  border-color: #3B82F6;
-  box-shadow: 0 0 6px rgba(59, 130, 246, 0.3);
+  border-color: #ba68c8;
+  box-shadow: 0 0 6px rgba(186, 104, 200, 0.5);
+}
+
+.auth-card form input::placeholder {
+  color: #6d4c71;
 }
 
 .auth-card form button {
@@ -181,309 +169,162 @@ form input::placeholder, .chat-input input::placeholder {
   padding: 12px;
   border-radius: 8px;
   font-weight: bold;
-  background: #1D4ED8;
+  background: #ba68c8;
   border: none;
-  color: #FFFFFF;
+  color: white;
   cursor: pointer;
   transition: background 0.3s;
 }
 
 .auth-card form button:hover {
-  background: #3B82F6;
+  background: #8e24aa;
 }
 
-/* Display checkboxes side by side */
-.available-days {
-  margin-bottom: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px; /* space between checkboxes */
-  align-items: center;
-}
 
-.available-days label {
-  display: flex;
-  align-items: center;
-  gap: 4px; /* space between checkbox and text */
-  font-size: 0.95rem;
-  color: #1F2937;
-}
-
-.available-days input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #1D4ED8; /* matches professional blue theme */
-}
-
-/* Dashboard */
-.dashboard {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-}
-.dashboard h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #1D4ED8;
-}
-
-/* Grid layout */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-/* Card */
-.card {
-  background: #FDF7F0; /* Light card background */
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  margin-bottom: 20px;
-}
-.card h3 {
-  margin-bottom: 12px;
-  font-size: 1.2rem;
-  color: #1D4ED8;
-}
-
-/* Lists */
-ul {
-  list-style: none;
-  padding: 0;
-}
-ul li {
-  padding: 10px;
-  border-bottom: 1px solid #E5E7EB;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #1F2937;
-}
-ul li:last-child {
-  border-bottom: none;
-}
-
-/* Chat container */
-.chat-container {
-  max-width: 700px;
-  margin: 40px auto;
-  background: #FDF7F0;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.chat-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #1D4ED8;
-}
-
-/* Chat box */
-.chat-box {
-  height: 400px;
-  overflow-y: auto;
-  padding: 10px;
-  border: 1px solid #D1D5DB;
-  border-radius: 8px;
-  background: #FFF8F0;
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Messages */
-.message {
-  padding: 10px 14px;
-  border-radius: 12px;
-  max-width: 70%;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  word-wrap: break-word;
-}
-.message.user {
-  background: #3B82F6;
-  color: #FFFFFF;
-  align-self: flex-end;
-}
-.message.other {
-  background: #E5E7EB;
-  color: #1F2937;
-  align-self: flex-start;
-}
-
-/* Chat input */
-.chat-input {
-  display: flex;
-  gap: 10px;
-}
-.chat-input input {
-  flex: 1;
-  background: #FDF7F0;
-  color: #1F2937;
-  border: 1px solid #D1D5DB;
-}
-.chat-input button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  background: #1D4ED8;
-  color: #FFFFFF;
-}
-
-/* Hero Section */
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #FFF8F0, #FDF7F0);
-}
-.hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 16px;
-  color: #1D4ED8;
-}
-.hero-content h1 span {
-  color: #3B82F6;
-}
-.hero-content p {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  color: #1F2937;
-}
-.hero-content button {
-  background: #1D4ED8;
-  color: #FFFFFF;
-}
-.hero-content button:hover {
-  background: #3B82F6;
-}
-
-.emblem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #1D4ED8; /* Primary blue */
-  color: #FFF8F0;           /* Light cream text */
-  font-weight: bold;
-  font-size: 1rem;
+/* ==================== Filter Inputs & Buttons ==================== */
+#filterTeacherId {
+  padding: 12px 16px;
+  border-radius: var(--border-radius);
+  border: 1px solid #d1d5db;
   margin-right: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  flex-shrink: 0;
+  width: 240px;
+  transition: 0.2s;
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 20px;
-  background: #1D4ED8;
-  color: #FFFFFF;
+#filterTeacherId:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 8px rgba(79,70,229,0.3);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .grid { grid-template-columns: 1fr; }
-  .features .card { width: 90%; }
-
-  /* Navbar links stack vertically on small screens */
-  header.navbar nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  header.navbar .nav-links {
-    flex-direction: column;
-    width: 100%;
-  }
-  header.navbar .nav-links a {
-    width: 100%;
-    text-align: left;
-  }
-}
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
+button#filterBtn, button#resetBtn {
+  background: var(--primary);
+  color: var(--text-light);
+  box-shadow: var(--shadow);
 }
+
+button#filterBtn:hover, button#resetBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+button.btn-success {
+  background: var(--success);
+  color: var(--text-light);
+  box-shadow: var(--shadow);
+}
+
+button.btn-success:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+button.btn-danger {
+  background: var(--danger);
+  color: var(--text-light);
+  box-shadow: var(--shadow);
+}
+
+button.btn-danger:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ==================== Tables ==================== */
 .table-container {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 25px;
   overflow-x: auto;
 }
 
 .styled-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
   background: var(--card-bg);
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow);
 }
 
 .styled-table th,
 .styled-table td {
-  padding: 12px 15px;
+  padding: 16px 20px;
   text-align: left;
 }
 
 .styled-table thead tr {
-  background-color: var(--primary, #4a90e2);
-  color: white;
-  font-weight: bold;
+  background-color: var(--primary);
+  color: var(--text-light);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.styled-table tr:nth-child(even) {
-  background-color: rgba(0,0,0,0.03);
+.styled-table tbody tr {
+  background: var(--card-bg);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.styled-table tr:hover {
-  background-color: rgba(0,0,0,0.07);
-  transition: 0.2s;
+.styled-table tbody tr:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
 }
 
-.btn-primary {
-  background: #007bff;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
+.styled-table tbody tr:nth-child(even) td {
+  background-color: #f9fafb;
 }
 
-.btn-danger {
-  background: #dc3545;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
+.styled-table tbody td button {
+  padding: 8px 16px;
+  font-size: 14px;
 }
 
-.btn-primary:hover {
-  opacity: 0.85;
-}
-
-.btn-danger:hover {
-  opacity: 0.85;
-}
-
-.hero {
-  flex: 1;
-}
-
+/* ==================== Footer ==================== */
 .footer {
   margin-top: auto;
+  background: var(--primary);
+  color: var(--text-light);
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: var(--shadow);
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 20px 10px;
+  }
+
+  #filterTeacherId {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  header.navbar nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  header.navbar .nav-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  header.navbar .nav-links a {
+    width: 100%;
+    text-align: left;
+  }
 }
