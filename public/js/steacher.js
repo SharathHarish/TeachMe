@@ -12,11 +12,17 @@ const searchBtn = document.getElementById("searchBtn");
 const resetBtn = document.getElementById("resetBtn");
 const teachersList = document.getElementById("teachersList");
 
+// --------------------------
+// Load All Teachers
+// --------------------------
 async function loadTeachers() {
   const snap = await getDocs(collection(db, "teachers"));
   return snap.docs.map(doc => doc.data());
 }
 
+// --------------------------
+// Display Teachers in Table
+// --------------------------
 function displayTeachers(list) {
   teachersList.innerHTML = "";
 
@@ -40,13 +46,19 @@ function displayTeachers(list) {
   });
 }
 
+// --------------------------------
+// Search Button Click
+// --------------------------------
 searchBtn.addEventListener("click", async () => {
   const all = await loadTeachers();
 
   const filtered = all.filter(t => {
-    const matchName = t.name.toLowerCase().includes(nameInput.value.toLowerCase());
-    const matchDept = deptInput.value === "" || t.department === deptInput.value;
-    const matchSub = subjectInput.value === "" || t.subject === subjectInput.value;
+    const matchName =
+      t.name.toLowerCase().includes(nameInput.value.toLowerCase());
+    const matchDept =
+      deptInput.value === "" || t.department === deptInput.value;
+    const matchSub =
+      subjectInput.value === "" || t.subject === subjectInput.value;
 
     return matchName && matchDept && matchSub;
   });
@@ -54,17 +66,14 @@ searchBtn.addEventListener("click", async () => {
   displayTeachers(filtered);
 });
 
-resetBtn.addEventListener("click", async () => {
+// --------------------------------
+// Reset Button Click
+// --------------------------------
+resetBtn.addEventListener("click", () => {
   nameInput.value = "";
   deptInput.value = "";
   subjectInput.value = "";
 
-  const all = await loadTeachers();
-  displayTeachers(all);
+  // Clear table again
+  teachersList.innerHTML = "";
 });
-
-// Load all on page load
-(async () => {
-  const all = await loadTeachers();
-  displayTeachers(all);
-})();
