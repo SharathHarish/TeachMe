@@ -1,0 +1,127 @@
+<link rel="stylesheet" href="../../css/style.css">
+
+<header class="navbar">
+<!-- Navbar -->
+  <div id="navbar"></div>
+  <script>
+    fetch("anavbar.html")
+      .then(r => r.text())
+      .then(d => { document.getElementById("navbar").innerHTML = d; });
+  </script>
+</header>
+
+<main class="dashboard">
+
+  
+
+  <div class="auth-container">
+    <div class="auth-card">
+
+      <form>
+<h2>Add a New Teacher</h2>
+        <!-- Teacher ID -->
+        <input type="text" id="tid" placeholder="Teacher ID" required
+               pattern="[A-Za-z0-9]{2,20}" title="Alphanumeric, 2-20 characters">
+
+        <!-- Teacher Name -->
+        <input type="text" id="tname" placeholder="Teacher Name" required
+               pattern="[A-Za-z\s]{2,50}" title="Only letters and spaces, 2-50 characters">
+
+        <!-- Department Dropdown -->
+        <select name="department" id="teacherdep" required>
+          <option value="">Select Department</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Science">Science</option>
+          <option value="English">English</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="History">History</option>
+          <option value="Arts">Arts</option>
+        </select>
+
+        <!-- Subject Dropdown -->
+        <select name="subject" id="teachersub" required>
+          <option value="">Select Subject</option>
+          <option value="Algebra">Algebra</option>
+          <option value="Calculus">Calculus</option>
+          <option value="Physics">Physics</option>
+          <option value="Chemistry">Chemistry</option>
+          <option value="Literature">Literature</option>
+          <option value="Grammar">Grammar</option>
+          <option value="Programming">Programming</option>
+          <option value="History">History</option>
+          <option value="Painting">Painting</option>
+        </select>
+<input type="email" id="temail" placeholder="Teacher Email " 
+       required
+       pattern="^[a-zA-Z0-9._%+-]+"
+       title="Email ">
+
+        <!-- Years of Experience -->
+        <input type="number" name="experience" id="exp" placeholder="Years of Experience" required
+               min="0" max="50" title="Enter years between 0 and 50">
+
+       <!-- Available Days Checkboxes -->
+<div class="available-days">
+  <label><strong>Available Days:</strong></label><br>
+  <label><input type="checkbox" name="available" id="ava" value="Mon"> Mon</label>
+  <label><input type="checkbox" name="available" id="ava" value="Tue"> Tue</label>
+  <label><input type="checkbox" name="available" id="ava" value="Wed"> Wed</label>
+  <label><input type="checkbox" name="available" id="ava" value="Thu"> Thu</label>
+  <label><input type="checkbox" name="available" id="ava" value="Fri"> Fri</label>
+  <label><input type="checkbox" name="available" id="ava" value="Sat"> Sat</label>
+  <label><input type="checkbox" name="available" id="ava" value="Sun"> Sun</label>
+</div>
+
+
+        <button class="btn-success">Add Teacher</button>
+      </form>
+    </div>
+  </div>
+
+<h2>Teachers List</h2>
+
+<input type="text" id="filterTeacherId" placeholder="Enter Teacher ID" />
+<button id="filterBtn">Filter</button>
+<button id="resetBtn">Reset</button>
+
+
+  <div class="table-container">
+  <table class="styled-table" id="teachersTable">
+    <thead>
+      <tr>
+        <th>Teacher ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Subject</th>
+         <th>E-mail</th>
+        <th>Experience</th>
+        <th>Available Days</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody id="teachersList">
+      <!-- Firebase will insert rows here -->
+      
+      <!-- Example static row (remove after Firebase integration) -->
+      <tr>
+        <td>T001</td>
+        <td>John Doe</td>
+        <td>Mathematics</td>
+        <td>Algebra & Calculus</td>
+        <td>10 years</td>
+        <td>Mon, Wed, Fri</td>
+        <td>
+          <button class="btn-primary">Update</button>
+          <button class="btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</main>
+<script type="module" src="../../js/addteachers.js"></script>
+
+<footer class="footer">
+  &copy; 2025 School Management System
+</footer>
