@@ -17,17 +17,20 @@ loginForm.addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value.trim();
 
   try {
-    // 1. Firebase Auth Login
+    // 1. Firebase Auth login
     const user = await loginUser(email, password);
 
-    // If admin → SKIP Firestore check completely
+    // ---------- ADMIN LOGIN ----------
     if (email === "adminteachme@gmail.com") {
-      alert(`Login Successful! Welcome ADMIN`);
+      // For admin, store "admin" as session userId
+      sessionStorage.setItem("userId", "admin");
+      alert("Login Successful! Welcome ADMIN");
       window.location.href = "admin.html";
       return;
     }
 
-    // 2. Query Firestore for teachers/students
+    // ---------- TEACHER / STUDENT ----------
+    // Query users collection where field 'email' matches input
     const q = query(
       collection(db, "users"),
       where("email", "==", email)
@@ -40,26 +43,30 @@ loginForm.addEventListener('submit', async (e) => {
       return;
     }
 
-    const userData = snap.docs[0].data();
-    const type = userData.type;
-    const access = userData.access;
+    const userDoc = snap.docs[0].data();
 
-    // 3. Access Check (only for non-admin)
+    // Take the 'id' field from this document
+    const userFieldId = userDoc.id;
+    const type = userDoc.type;
+    const access = userDoc.access;
+
+    // Save field id in sessionStorage
+    sessionStorage.setItem("userId", userFieldId);
+
+    // Access check
     if (access !== "a") {
       alert("Your account is not activated. Contact admin.");
       return;
     }
 
-    alert(`Login Successful! Welcome ${user.email} (${type})`);
+    alert(`Login Successful! Welcome ${email} (${type})`);
 
-    // 4. Redirect Based on Role
+    // Redirect based on role
     if (type === "teacher") {
       window.location.href = "teacherDashboard.html";
-    } 
-    else if (type === "student") {
+    } else if (type === "student") {
       window.location.href = "studentDashboard.html";
-    } 
-    else {
+    } else {
       alert("Unknown user type. Contact admin.");
     }
 
