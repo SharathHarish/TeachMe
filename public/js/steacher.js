@@ -77,9 +77,13 @@ async function requestAppointment(event) {
       messages: ""
     });
 
-    alert("Appointment request sent!");
+alert("Appointment request sent!");
+
+    // Redirect after success
+    window.location.href = "smyappoint.html";
+
   } catch (err) {
-    console.error("Error:", err);
+    console.error(err);
     alert("Failed to send appointment request.");
   }
 }
