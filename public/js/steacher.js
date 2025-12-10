@@ -3,7 +3,10 @@ import { db } from "./firebase.js";
 import {
   collection,
   getDocs,
-  addDoc
+  addDoc,
+  query,
+  orderBy,
+  limit
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const nameInput = document.getElementById("searchName");
@@ -18,11 +21,30 @@ const teachersList = document.getElementById("teachersList");
 // --------------------------
 async function loadTeachers() {
   const snap = await getDocs(collection(db, "teachers"));
-  return snap.docs.map(doc => doc.data()); // contains tid inside
+  return snap.docs.map(doc => doc.data());
 }
 
 // --------------------------
-// Display Teachers in Table
+// Get the next AID
+// --------------------------
+async function getNextAid() {
+  const q = query(
+    collection(db, "appointment"),
+    orderBy("aid", "desc"),
+    limit(1)
+  );
+
+  const snap = await getDocs(q);
+
+  if (snap.empty) return 1;
+
+  const lastAid = snap.docs[0].data().aid || 0;
+
+  return lastAid + 1;
+}
+
+// --------------------------
+// Display Teachers
 // --------------------------
 function displayTeachers(list) {
   teachersList.innerHTML = "";
@@ -55,32 +77,34 @@ function displayTeachers(list) {
   });
 }
 
-// --------------------------------
+// --------------------------
 // Handle Appointment Request
-// --------------------------------
+// --------------------------
 async function requestAppointment(event) {
-  const tid = event.target.getAttribute("tid"); // 
+  const tid = event.target.getAttribute("tid");
   const sid = sessionStorage.getItem("userId");
 
   if (!sid) {
-    alert("User not logged in! No SID found in sessionStorage.");
+    alert("User not logged in!");
     return;
   }
 
   try {
+    const nextAid = await getNextAid(); // NEW
+
     await addDoc(collection(db, "appointment"), {
+      aid: nextAid,        // NEW FIELD
       tid: tid,
       sid: sid,
+      status: "m",         // NEW FIELD (m = message/request sent)
       startTime: "",
       endTime: "",
       appDate: "",
       messages: ""
     });
 
-alert("Appointment request sent!");
-
-    // Redirect after success
-    window.location.href = "smyappoint.html";
+    alert("Appointment request sent!");
+    window.location.href = "sbookappoint.html";
 
   } catch (err) {
     console.error(err);
@@ -88,9 +112,9 @@ alert("Appointment request sent!");
   }
 }
 
-// --------------------------------
-// Search Button Click
-// --------------------------------
+// --------------------------
+// Search Button
+// --------------------------
 searchBtn.addEventListener("click", async () => {
   const all = await loadTeachers();
 
@@ -105,9 +129,9 @@ searchBtn.addEventListener("click", async () => {
   displayTeachers(filtered);
 });
 
-// --------------------------------
-// Reset Button Click
-// --------------------------------
+// --------------------------
+// Reset Button
+// --------------------------
 resetBtn.addEventListener("click", () => {
   nameInput.value = "";
   deptInput.value = "";

@@ -1,139 +1,80 @@
-// smyappoint.js
-import { db } from "./firebase.js";
+import { db } from "../js/firebase.js";
 import {
   collection,
   getDocs,
-  updateDoc,
+  query,
+  where,
   doc
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-const cardContainer = document.getElementById("appointmentsContainer");
+// Student ID from localStorage
 
-// Popup elements
-const popup = document.getElementById("messagePopup");
-const popupMessageInput = document.getElementById("popupMessage");
-const popupSendBtn = document.getElementById("popupSendBtn");
-const popupCloseBtn = document.getElementById("popupCloseBtn");
+const studentId = sessionStorage.getItem("userId");
 
-let currentAID = null;
 
-// ------------------------------------------------
-// Load Teachers (needed to convert tid -> name)
-// ------------------------------------------------
+// -------------------------------------------------------------
+// Load Teachers into a MAP for fast lookup (tid → teacherName)
+// -------------------------------------------------------------
 async function loadTeachersMap() {
   const snap = await getDocs(collection(db, "teachers"));
-  
-  const map = {};
-  snap.docs.forEach(doc => {
-    let t = doc.data();
-    map[t.tid] = t.name;  // store teacher name by tid
+
+  const teacherMap = {};
+  snap.docs.forEach(t => {
+    const data = t.data();
+    teacherMap[data.tid] = data.name;   // store name by tid
   });
 
-  return map;
+  return teacherMap;
 }
 
-// ------------------------------------------------
-// Load Appointments
-// ------------------------------------------------
+// -------------------------------------------------------------
+// Load Appointments for Logged Student
+// -------------------------------------------------------------
 async function loadAppointments() {
-  const sid = sessionStorage.getItem("sid");
+  const tbody = document.getElementById("appointmentList");
+  tbody.innerHTML = "";
 
-  if (!sid) {
-    alert("User not logged in!");
-    return;
-  }
+  const teacherMap = await loadTeachersMap(); // get teacher names
 
-  const teacherMap = await loadTeachersMap(); // <-- NEW
+  const q = query(
+    collection(db, "appointment"),
+    where("sid", "==", studentId)
+  );
 
-  const snap = await getDocs(collection(db, "appointments"));
-  
-  const myAppointments = snap.docs.map(d => ({
-    aid: d.id,
-    ...d.data(),
-    teacherName: teacherMap[d.data().tid] || "Unknown Teacher" // match name
-  })).filter(a => a.sid === sid);
+  const snap = await getDocs(q);
 
-  renderCards(myAppointments);
-}
+  snap.forEach(docSnap => {
+    const data = docSnap.data();
 
-// ------------------------------------------------
-// Render cards with teacher name
-// ------------------------------------------------
-function renderCards(list) {
-  cardContainer.innerHTML = "";
+    // Convert teacher tid → teacher name
+    const teacherName = teacherMap[data.tid] || data.tid;
 
-  if (list.length === 0) {
-    cardContainer.innerHTML = `<p>No appointments found.</p>`;
-    return;
-  }
+    const tr = document.createElement("tr");
 
-  list.forEach(a => {
-    const card = `
-      <div class="appoint-card">
-        <h3>${a.teacherName}</h3>
-        <p><b>Date:</b> ${a.appDate || "-"}</p>
-        <p><b>Start:</b> ${a.startTime || "-"}</p>
-        <p><b>End:</b> ${a.endTime || "-"}</p>
-        <p><b>Message:</b> ${a.messages || "No messages yet"}</p>
+    tr.innerHTML = `
+      <td>${teacherName}</td>
+      <td>${data.appDate || "-"}</td>
+      <td>${data.startTime || "-"}</td>
+      <td>${data.status}</td>
 
-        <button class="msgBtn" data-aid="${a.aid}">
-            Send Message
+      <td>
+        <button class="btn-success completeBtn"
+                data-docid="${data.aid}">
+          Complete Appointment
         </button>
-      </div>
+      </td>
     `;
 
-    cardContainer.innerHTML += card;
+    tbody.appendChild(tr);
   });
 
-  document.querySelectorAll(".msgBtn").forEach(btn => {
-    btn.addEventListener("click", openMessagePopup);
-  });
-}
-
-// ------------------------------------------------
-// Popup Open
-// ------------------------------------------------
-function openMessagePopup(e) {
-  currentAID = e.target.getAttribute("data-aid");
-  popupMessageInput.value = "";
-  popup.style.display = "flex";
-}
-
-// ------------------------------------------------
-// Popup Close
-// ------------------------------------------------
-popupCloseBtn.addEventListener("click", () => {
-  popup.style.display = "none";
-});
-
-// ------------------------------------------------
-// Save message to Firestore
-// ------------------------------------------------
-popupSendBtn.addEventListener("click", async () => {
-  const msg = popupMessageInput.value.trim();
-
-  if (msg === "") {
-    alert("Message cannot be empty.");
-    return;
-  }
-
-  try {
-    const ref = doc(db, "appointments", currentAID);
-
-    await updateDoc(ref, {
-      messages: msg
+  // Click handlers for Complete buttons
+  document.querySelectorAll(".completeBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const docId = btn.dataset.docid;
+      window.location.href = `smessage.html?aid=${docId}`;
     });
+  });
+}
 
-    alert("Message sent!");
-    popup.style.display = "none";
-
-    loadAppointments(); // refresh
-
-  } catch (err) {
-    console.error(err);
-    alert("Failed to send message.");
-  }
-});
-
-// Load all on start
 loadAppointments();
