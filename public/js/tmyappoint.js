@@ -3,7 +3,9 @@ import {
   collection,
   getDocs,
   query,
-  where
+  where,
+  updateDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 // Teacher ID
@@ -49,37 +51,50 @@ async function loadAppointments() {
 
   snap.forEach(docSnap => {
     const data = docSnap.data();
+    const aid = docSnap.id;
 
-    // Fetch name + class from studentMap
     const sInfo = studentMap[data.sid] || {};
 
     const studentName = sInfo.sname || "-";
     const studentClass = sInfo.sclass || "-";
-
-    // Message comes directly from APPOINTMENT
     const studentMessage = data.message || "-";
-
-    // Handle empty date
     const appDate =
       data.appDate && data.appDate.trim() !== ""
         ? data.appDate
         : "Yet to be scheduled";
 
-    // Button logic
+    // -------------------------------------------------------------
+    // ACTION BUTTONS (Only for status = m)
+    // -------------------------------------------------------------
     let actionCell = "";
-    if (data.status === "m") {
+
+    if (data.status === "s") {
+      // ACTIVE — show Schedule + Reject
       actionCell = `
-        <button class="btn-success completeBtn"
-                data-docid="${data.aid}">
-          Complete Appointment
+        <button class="btn-yellow scheduleBtn" data-id="${aid}">
+          Schedule
+        </button>
+
+        <button class="btn-red rejectBtn" data-id="${aid}">
+          Reject
         </button>
       `;
-    } else {
-      actionCell = `<span style="color: blue; font-weight: bold;">
-                      Appointment Request Completed
-                    </span>`;
+    } 
+    
+    else if (data.status === "r") {
+      // REJECTED
+      actionCell = `
+        <span style="color: red; font-weight: bold;">
+          Appointment Rejected
+        </span>
+      `;
     }
 
+    // Any other status → show nothing (blank)
+
+    // -------------------------------------------------------------
+    // CREATE TABLE ROW
+    // -------------------------------------------------------------
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
@@ -95,11 +110,31 @@ async function loadAppointments() {
     tbody.appendChild(tr);
   });
 
-  // Attach button events
-  document.querySelectorAll(".completeBtn").forEach(btn => {
+  attachButtonEvents();
+}
+
+// -------------------------------------------------------------
+// BUTTON EVENTS
+// -------------------------------------------------------------
+function attachButtonEvents() {
+  // Schedule Button
+  document.querySelectorAll(".scheduleBtn").forEach(btn => {
     btn.addEventListener("click", () => {
-      const aid = btn.dataset.docid; // aid in appointment doc
+      const aid = btn.dataset.id;
       window.location.href = `tmyappoint.html?aid=${aid}`;
+    });
+  });
+
+  // Reject Button
+  document.querySelectorAll(".rejectBtn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const aid = btn.dataset.id;
+
+      await updateDoc(doc(db, "appointment", aid), {
+        status: "r"
+      });
+
+      loadAppointments();
     });
   });
 }

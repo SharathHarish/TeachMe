@@ -243,6 +243,41 @@ button.btn-danger:hover {
   box-shadow: var(--shadow-hover);
 }
 
+/* Yellow Schedule Button */
+.btn-yellow {
+  background-color: #facc15;      /* amber-400 */
+  color: #000;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-yellow:hover {
+  background-color: #eab308;      /* amber-500 */
+  transform: scale(1.03);
+}
+
+/* Red Reject Button */
+.btn-red {
+  background-color: #ef4444;      /* red-500 */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+  margin-left: 8px;
+}
+
+.btn-red:hover {
+  background-color: #dc2626;      /* red-600 */
+  transform: scale(1.03);
+}
+
 /* ==================== Tables ==================== */
 .table-container {
   width: 100%;
