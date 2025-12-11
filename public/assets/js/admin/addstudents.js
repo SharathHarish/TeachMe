@@ -97,7 +97,6 @@ function createRow(s, access) {
       <td>${s.sname}</td>
       <td>${s.semail}</td>
       <td>${s.sclass}</td>
-      <td>${s.sphone}</td>
       <td>
         <button id="toggle-${s.sid}" class="${btnClass}" onclick="toggleAccess('${s.sid}')">${btnText}</button>
       </td>
@@ -115,8 +114,6 @@ function createApprovedRow(s) {
       <td>${s.sname}</td>
       <td>${s.semail}</td>
       <td>${s.sclass}</td>
-      <td>${s.sphone}</td>
-      <td>Approved</td>
     </tr>
   `;
 }
