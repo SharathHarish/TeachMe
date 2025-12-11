@@ -3,7 +3,10 @@ import {
   collection,
   setDoc,
   doc,
-  getDoc
+  getDoc,
+  query,
+  where,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 import {
@@ -47,15 +50,35 @@ regForm.addEventListener("submit", async (e) => {
   const userRef = doc(db, "users", studentId);
 
   // ----------------------------
-  // CHECK DUPLICATE STUDENT ID
+  // 1️⃣ CHECK DUPLICATE Student ID
   // ----------------------------
   const existing = await getDoc(studentRef);
 
   if (existing.exists()) {
     Swal.fire({
       icon: "error",
-      title: "Duplicate ID",
-      text: "Student ID already exists. Contact admin.",
+      title: "Duplicate Student ID",
+      text: "A student with this ID already exists. Contact admin.",
+      confirmButtonColor: "#ef4444"
+    });
+    return;
+  }
+
+  // ----------------------------
+  // 2️⃣ CHECK DUPLICATE Email (semail)
+  // ----------------------------
+  const emailQuery = query(
+    collection(db, "student"),
+    where("semail", "==", email)
+  );
+
+  const emailSnap = await getDocs(emailQuery);
+
+  if (!emailSnap.empty) {
+    Swal.fire({
+      icon: "error",
+      title: "Email Already Registered",
+      text: "This email ID already belongs to another student.",
       confirmButtonColor: "#ef4444"
     });
     return;
@@ -78,19 +101,15 @@ regForm.addEventListener("submit", async (e) => {
   try {
 
     // ----------------------------
-    // 1. Create Firebase Auth User
+    // Create Firebase Auth User
     // ----------------------------
     await createUserWithEmailAndPassword(auth, email, password);
 
     // ----------------------------
-    // 2. Save into student collection
+    // Save in Firestore
     // ----------------------------
     await setDoc(studentRef, studentData);
-
-    // ----------------------------
-    // 3. Save into users collection
-    // ----------------------------
-   await setDoc(userRef, userData);
+    await setDoc(userRef, userData);
 
     Swal.fire({
       icon: "success",
@@ -103,7 +122,6 @@ regForm.addEventListener("submit", async (e) => {
     });
 
   } catch (err) {
-
     Swal.fire({
       icon: "error",
       title: "Registration Failed",
