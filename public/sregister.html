@@ -4,25 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Register</title>
+  <!-- CSS relative to student/ folder -->
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar Include -->
   <div id="navbar"></div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    fetch("navbar.html")
+    fetch("../navbar.html")  <!-- relative path from student/ -->
       .then(r => r.text())
       .then(d => { document.getElementById("navbar").innerHTML = d; });
   </script>
 
-    <div class="auth-container">
+  <div class="auth-container">
     <div class="auth-card">
       <h2>Register</h2>
       <form id="regForm">
         <input type="text" id="rid" placeholder="Student ID" required>
         <input type="text" id="rname" placeholder="Full Name" required>
-         <input type="text" id="rclass" placeholder="Class" required>
+        <input type="text" id="rclass" placeholder="Class" required>
         <input type="email" id="remail" placeholder="Email" required>
         <input type="password" id="rpass" placeholder="Password" required>
         <button type="submit" class="btn-primary">Register</button>
@@ -31,13 +31,18 @@
     </div>
   </div>
 
-  <script type="module" src="/assets/js/firebase/firebase.js"></script>
-  <script type="module" src="/assets/js/firebase/auth.js"></script>
-  <script type="module" src="/assets/js/student/register.js"></script>
-<!-- Footer Include -->
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- JS Modules relative to student/ folder -->
+  <script type="module" src="../assets/js/firebase/firebase.js"></script>
+  <script type="module" src="../assets/js/firebase/auth.js"></script>
+  <script type="module" src="../assets/js/student/register.js"></script>
+
+  <!-- Footer Include -->
   <div id="footer"></div>
   <script>
-    fetch("footer.html")
+    fetch("../footer.html") <!-- relative path from student/ -->
       .then(r => r.text())
       .then(d => { document.getElementById("footer").innerHTML = d; });
   </script>
