@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../assets/css/style.css">
 
 <header class="navbar">
 <!-- Navbar -->
@@ -11,14 +11,11 @@
 </header>
 
 <main class="dashboard">
-
-  
-
   <div class="auth-container">
     <div class="auth-card">
 
       <form>
-<h2>Add a New Teacher</h2>
+<h2>Add Teacher</h2>
         <!-- Teacher ID -->
         <input type="text" id="tid" placeholder="Teacher ID" required
                pattern="[A-Za-z0-9]{2,20}" title="Alphanumeric, 2-20 characters">
@@ -26,7 +23,6 @@
         <!-- Teacher Name -->
         <input type="text" id="tname" placeholder="Teacher Name" required
                pattern="[A-Za-z\s]{2,50}" title="Only letters and spaces, 2-50 characters">
-
         <!-- Department Dropdown -->
         <select name="department" id="teacherdep" required>
           <option value="">Select Department</option>
@@ -62,16 +58,16 @@
 
        <!-- Available Days Checkboxes -->
 <div class="available-days">
-  <label><strong>Available Days:</strong></label><br>
-  <label><input type="checkbox" name="available" id="ava" value="Mon"> Mon</label>
-  <label><input type="checkbox" name="available" id="ava" value="Tue"> Tue</label>
-  <label><input type="checkbox" name="available" id="ava" value="Wed"> Wed</label>
-  <label><input type="checkbox" name="available" id="ava" value="Thu"> Thu</label>
-  <label><input type="checkbox" name="available" id="ava" value="Fri"> Fri</label>
-  <label><input type="checkbox" name="available" id="ava" value="Sat"> Sat</label>
-  <label><input type="checkbox" name="available" id="ava" value="Sun"> Sun</label>
-</div>
+  <label class="title"><strong>Available Days:</strong></label>
 
+  <label class="day"><input type="checkbox" name="available" value="Mon"> Mon</label>
+  <label class="day"><input type="checkbox" name="available" value="Tue"> Tue</label>
+  <label class="day"><input type="checkbox" name="available" value="Wed"> Wed</label>
+  <label class="day"><input type="checkbox" name="available" value="Thu"> Thu</label>
+  <label class="day"><input type="checkbox" name="available" value="Fri"> Fri</label>
+  <label class="day"><input type="checkbox" name="available" value="Sat"> Sat</label>
+  <label class="day"><input type="checkbox" name="available" value="Sun"> Sun</label>
+</div>
 
         <button class="btn-success">Add Teacher</button>
       </form>
@@ -120,7 +116,7 @@
   </table>
 </div>
 </main>
-<script type="module" src="../../js/addteachers.js"></script>
+<script type="module" src="../assets/js/admin/addteachers.js"></script>
 <script type="module" src="../assets/js/firebase/logout.js"></script>
 
 <footer class="footer">

@@ -353,6 +353,39 @@ button.btn-danger:hover {
   padding: 8px 16px;
   font-size: 14px;
 }
+select {
+    width: 100%;
+    background: #f8d7e0;      /* same pink */
+    border: 1px solid #e9b7c7;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+}
+.available-days {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 400px;
+    margin-top: 10px;
+}
+
+.available-days .title {
+    grid-column: span 3;
+    margin-bottom: 5px;
+}
+
+.available-days .day {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8d7e0;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #e9b7c7;
+}  width: 200px;
+}
 
 /* ==================== Footer ==================== */
 .footer {
