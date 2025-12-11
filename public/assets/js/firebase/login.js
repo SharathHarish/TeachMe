@@ -30,7 +30,7 @@ loginForm.addEventListener('submit', async (e) => {
         text: 'Welcome ADMIN!',
         confirmButtonColor: '#4f46e5'
       }).then(() => {
-        window.location.href = "admin.html";
+        window.location.href = "./admin/adashboard.html";
       });
 
       return;
@@ -78,9 +78,9 @@ loginForm.addEventListener('submit', async (e) => {
       confirmButtonColor: '#4f46e5'
     }).then(() => {
       if (type === "teacher") {
-        window.location.href = "teacherDashboard.html";
+        window.location.href = "./teacher/tdashboard..html";
       } else if (type === "student") {
-        window.location.href = "studentDashboard.html";
+        window.location.href = "./student/sdashboard.html";
       } else {
         Swal.fire({
           icon: 'error',
