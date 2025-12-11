@@ -8,10 +8,15 @@ import {
   deleteDoc
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+import {
+  getAuth,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
 // -------------------------
 // DOM ELEMENTS
 // -------------------------
-const teachersList = document.getElementById("teachersList"); // tbody
+const teachersList = document.getElementById("teachersList"); 
 const tid = document.getElementById("tid");
 const tname = document.getElementById("tname");
 const temail = document.getElementById("temail");
@@ -21,6 +26,8 @@ const exp = document.getElementById("exp");
 const form = document.querySelector("form");
 
 const availableCheckboxes = document.querySelectorAll('input[name="available"]');
+
+const auth = getAuth();
 
 // -------------------------
 // PRE-FILL FORM
@@ -57,7 +64,7 @@ function createTableRow(id, t) {
       <td>${t.name}</td>
       <td>${t.department}</td>
       <td>${t.subject}</td>
-      <td>${t.email ? t.email : "-"}</td>
+      <td>${t.email || "-"}</td>
       <td>${t.experience} yrs</td>
       <td>${t.availableDays.join(", ")}</td>
       <td>
@@ -167,7 +174,14 @@ if (filterInput) {
 }
 
 // -------------------------
-// ADD TEACHER
+// GENERATE RANDOM PASSWORD
+// -------------------------
+function generatePassword() {
+  return Math.random().toString(36).slice(-8); 
+}
+
+// -------------------------
+// ADD TEACHER + USERS ENTRY
 // -------------------------
 form.addEventListener("submit", async e => {
   e.preventDefault();
@@ -176,23 +190,44 @@ form.addEventListener("submit", async e => {
     .filter(c => c.checked)
     .map(c => c.value);
 
-  // Email validation (must end with @stfrancis.edu.in)
   if (!temail.value.endsWith("@stfrancis.edu.in")) {
     alert("Email must end with @stfrancis.edu.in");
     return;
   }
 
-  await addDoc(collection(db, "teachers"), {
-    teacherid: tid.value,
-    name: tname.value,
-    email: temail.value,
-    department: teacherdep.value,
-    subject: teachersub.value,
-    experience: parseInt(exp.value),
-    availableDays
-  });
+  const password = generatePassword();
 
-  alert("Teacher added!");
-  form.reset();
-  loadTeachers();
+  try {
+    // Create Auth user
+    await createUserWithEmailAndPassword(auth, temail.value, password);
+
+    // Add to TEACHERS collection
+    await addDoc(collection(db, "teachers"), {
+      teacherid: tid.value,
+      name: tname.value,
+      email: temail.value,
+      password,
+      department: teacherdep.value,
+      subject: teachersub.value,
+      experience: parseInt(exp.value),
+      availableDays
+    });
+
+    // 🔥 ADD TO USERS collection (NEW)
+    await addDoc(collection(db, "users"), {
+      access: "a",                // as stored in your DB
+      email: temail.value,
+      id: tid.value,
+      type: "teacher"
+    });
+
+    alert(`Teacher Added Successfully!\n\nUsername: ${temail.value}\nPassword: ${password}`);
+
+    form.reset();
+    loadTeachers();
+
+  } catch (err) {
+    console.error(err);
+    alert("Error: " + err.message);
+  }
 });

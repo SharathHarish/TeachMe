@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="../../css/style.css">
+
+<header class="navbar">
+  <div id="navbar"></div>
+  <script>
+    fetch("tnavbar.html")
+      .then(res => res.text())
+      .then(html => (document.getElementById("navbar").innerHTML = html));
+  </script>
+</header>
+
+<main class="dashboard">
+
+  <h2>Your Appointments</h2>
+
+  <div class="table-container">
+    <table class="styled-table" id="appointmentTable">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Class</th>
+          <th>Message</th>
+ <th>Date</th>
+          <th>Time</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody id="appointmentList">
+        <!-- Firebase rows will load here -->
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<script type="module" src="../../js/tmyappoint.js"></script>
+
+<footer class="footer">
+  &copy; 2025 School Management System
+</footer>
