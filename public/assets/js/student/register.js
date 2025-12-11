@@ -33,7 +33,12 @@ regForm.addEventListener("submit", async (e) => {
   const password = rpass.value.trim();
 
   if (!studentId) {
-    alert("Student ID is required.");
+    Swal.fire({
+      icon: "warning",
+      title: "Missing Student ID",
+      text: "Student ID is required.",
+      confirmButtonColor: "#f97316"
+    });
     return;
   }
 
@@ -47,7 +52,12 @@ regForm.addEventListener("submit", async (e) => {
   const existing = await getDoc(studentRef);
 
   if (existing.exists()) {
-    alert("Student ID already exists. Contact admin.");
+    Swal.fire({
+      icon: "error",
+      title: "Duplicate ID",
+      text: "Student ID already exists. Contact admin.",
+      confirmButtonColor: "#ef4444"
+    });
     return;
   }
 
@@ -80,14 +90,25 @@ regForm.addEventListener("submit", async (e) => {
     // ----------------------------
     // 3. Save into users collection
     // ----------------------------
-    await setDoc(userRef, userData);
+   await setDoc(userRef, userData);
 
-    alert("Registration successful!");
-    regForm.reset();
-    window.location.href = "login.html";
+    Swal.fire({
+      icon: "success",
+      title: "Registration Successful!",
+      text: "Your account has been created.",
+      confirmButtonColor: "#4f46e5"
+    }).then(() => {
+      regForm.reset();
+      window.location.href = "login.html";
+    });
 
   } catch (err) {
-    console.error(err);
-    alert("Error: " + err.message);
+
+    Swal.fire({
+      icon: "error",
+      title: "Registration Failed",
+      text: err.message,
+      confirmButtonColor: "#ef4444"
+    });
   }
 });

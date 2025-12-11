@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+<header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="messages.html">Messages</a>
+    <a href="admin.html">Admin</a>
+    <button id="logoutBtn" class="logout-btn">Logout</button>
+  </nav>
+</header>
+
+  <main class="dashboard">
+    <!-- Student Section -->
+    <section id="studentSection" style="display:none">
+      <h2>🎓 Student Dashboard</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>📚 Available Teachers</h3>
+          <ul id="teacherList">Loading...</ul>
+        </div>
+        <div class="card">
+          <h3>🗓 Your Bookings</h3>
+          <ul id="studentBookings">Loading...</ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Teacher Section -->
+    <section id="teacherSection" style="display:none">
+      <h2>👩‍🏫 Teacher Dashboard</h2>
+      <div class="card">
+        <h3>🗓 Your Appointments</h3>
+        <ul id="bookingList">Loading...</ul>
+      </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="adminSection" style="display:none">
+      <h2>⚡ Admin Dashboard</h2>
+      <div class="card">
+        <p>Access admin panel <a href="admin.html">here</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

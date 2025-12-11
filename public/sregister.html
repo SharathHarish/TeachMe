@@ -9,6 +9,7 @@
 <body>
   <!-- Navbar -->
   <div id="navbar"></div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     fetch("navbar.html")
       .then(r => r.text())
@@ -30,9 +31,9 @@
     </div>
   </div>
 
-  <script type="module" src="js/firebase.js"></script>
-  <script type="module" src="js/auth.js"></script>
-  <script type="module" src="js/register.js"></script>
+  <script type="module" src="assets/js/firebase/firebase.js"></script>
+  <script type="module" src="assets/js/firebase/auth.js"></script>
+  <script type="module" src="assets/js/student/register.js"></script>
 <!-- Footer Include -->
   <div id="footer"></div>
   <script>
