@@ -7,9 +7,13 @@ import {
   where
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-const studentsList = document.getElementById("studentsList"); // All students
-const approvedList = document.getElementById("approvedList"); // Approved students
+const studentsList = document.getElementById("studentsList"); // All students list
+const approvedList = document.getElementById("approvedList"); // Approved students list
+const filterSidInput = document.getElementById("filterSid"); // SID filter input
 
+// -------------------------
+// ON PAGE LOAD
+// -------------------------
 window.addEventListener("DOMContentLoaded", () => {
   loadStudents();
   loadApprovedStudents();
@@ -33,7 +37,7 @@ async function loadStudents() {
     for (const docSnap of snapshot.docs) {
       const s = docSnap.data();
 
-      // Get user access status from users collection
+      // Fetch user access state from users collection
       const userQuery = query(collection(db, "users"), where("id", "==", s.sid));
       const userSnap = await getDocs(userQuery);
 
@@ -44,6 +48,9 @@ async function loadStudents() {
 
       studentsList.innerHTML += createRow(s, access);
     }
+
+    // Apply filter after loading
+    filterStudents();
 
   } catch (err) {
     console.error("Error loading students:", err);
@@ -58,18 +65,25 @@ async function loadApprovedStudents() {
   approvedList.innerHTML = `<tr><td colspan="6">Loading...</td></tr>`;
 
   try {
-    const usersSnapshot = await getDocs(query(collection(db, "users"), where("access", "==", "a")));
+    const usersSnapshot = await getDocs(
+      query(collection(db, "users"), where("access", "==", "a"))
+    );
+
     approvedList.innerHTML = "";
 
     if (usersSnapshot.empty) {
-      approvedList.innerHTML = `<tr><td colspan="6">No approved students found.</td></tr>`;
+      approvedList.innerHTML = `<tr><td colspan="6">No approved students.</td></tr>`;
       return;
     }
 
-    // For each approved user, get student details from "student" collection
     for (const userDoc of usersSnapshot.docs) {
       const sid = userDoc.data().id;
-      const studentQuery = query(collection(db, "student"), where("sid", "==", sid));
+
+      const studentQuery = query(
+        collection(db, "student"),
+        where("sid", "==", sid)
+      );
+
       const studentSnap = await getDocs(studentQuery);
 
       if (!studentSnap.empty) {
@@ -79,26 +93,28 @@ async function loadApprovedStudents() {
     }
 
   } catch (err) {
-    console.error("Error loading approved students:", err);
-    approvedList.innerHTML = `<tr><td colspan="6">Failed to load approved students.</td></tr>`;
+    console.error("Error loading approved:", err);
+    approvedList.innerHTML = `<tr><td colspan="6">Failed to load approved.</td></tr>`;
   }
 }
 
 // -------------------------
-// CREATE TABLE ROW
+// CREATE ROW FOR MAIN TABLE
 // -------------------------
 function createRow(s, access) {
   const btnText = access === "a" ? "Revoke Access" : "Approve Access";
   const btnClass = access === "a" ? "btn-danger" : "btn-success";
 
   return `
-    <tr>
-      <td>${s.sid}</td>
+    <tr class="student-row">
+      <td class="sid">${s.sid}</td>
       <td>${s.sname}</td>
       <td>${s.semail}</td>
       <td>${s.sclass}</td>
       <td>
-        <button id="toggle-${s.sid}" class="${btnClass}" onclick="toggleAccess('${s.sid}')">${btnText}</button>
+        <button id="toggle-${s.sid}" class="${btnClass}" onclick="toggleAccess('${s.sid}')">
+          ${btnText}
+        </button>
       </td>
     </tr>
   `;
@@ -119,9 +135,25 @@ function createApprovedRow(s) {
 }
 
 // -------------------------
+// FILTER BY STUDENT ID (SID)
+// -------------------------
+function filterStudents() {
+  const searchValue = filterSidInput.value.trim().toLowerCase();
+  const rows = document.querySelectorAll("#studentsList .student-row");
+
+  rows.forEach(row => {
+    const sidCell = row.querySelector(".sid")?.textContent.toLowerCase() || "";
+    row.style.display = sidCell.includes(searchValue) ? "" : "none";
+  });
+}
+
+// LIVE FILTER
+filterSidInput.addEventListener("input", filterStudents);
+
+// -------------------------
 // TOGGLE ACCESS
 // -------------------------
-window.toggleAccess = async function(sid) {
+window.toggleAccess = async function (sid) {
   try {
     const q = query(collection(db, "users"), where("id", "==", sid));
     const snapshot = await getDocs(q);
@@ -137,6 +169,7 @@ window.toggleAccess = async function(sid) {
 
     await updateDoc(docRef, { access: newAccess });
 
+    // Update button UI
     const btn = document.getElementById(`toggle-${sid}`);
     if (newAccess === "a") {
       btn.textContent = "Revoke Access";

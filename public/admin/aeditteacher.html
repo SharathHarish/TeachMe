@@ -1,0 +1,31 @@
+<!-- editTeacher.html -->
+<div class="popup" style="background:#fff; padding:20px; border-radius:10px; min-width:300px; max-width:500px;">
+  <h2>Edit Teacher</h2>
+  <form id="editForm">
+    <label>Teacher ID:</label>
+    <input id="editId" required>
+
+    <label>Name:</label>
+    <input id="editName" required>
+
+    <label>Email:</label>
+    <input id="editEmail" required>
+
+    <label>Department:</label>
+    <input id="editDept" required>
+
+    <label>Subject:</label>
+    <input id="editSubject" required>
+
+    <label>Experience:</label>
+    <input type="number" id="editExp" required>
+
+    <label>Available Days (comma separated):</label>
+    <input id="editDays" required>
+
+    <div style="margin-top:15px; display:flex; justify-content:flex-end; gap:10px;">
+      <button type="button" id="updateBtn" class="btn-success">Update</button>
+      <button type="button" id="cancelBtn" class="btn-danger">Cancel</button>
+    </div>
+  </form>
+</div>
