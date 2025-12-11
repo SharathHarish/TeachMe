@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Register</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
   <!-- Navbar -->
@@ -33,5 +33,12 @@
   <script type="module" src="js/firebase.js"></script>
   <script type="module" src="js/auth.js"></script>
   <script type="module" src="js/register.js"></script>
+<!-- Footer Include -->
+  <div id="footer"></div>
+  <script>
+    fetch("footer.html")
+      .then(r => r.text())
+      .then(d => { document.getElementById("footer").innerHTML = d; });
+  </script>
 </body>
 </html>
