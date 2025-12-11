@@ -72,7 +72,7 @@ async function loadAppointments() {
   document.querySelectorAll(".completeBtn").forEach(btn => {
     btn.addEventListener("click", () => {
       const docId = btn.dataset.docid;
-      window.location.href = `smessage.html?aid=${docId}`;
+      window.location.href = `smyappoint.html?aid=${docId}`;
     });
   });
 }
