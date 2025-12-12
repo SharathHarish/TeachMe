@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Logs</title>
+    <link rel="stylesheet" href="../assets/css/adminlogs.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Application Logs</h1>
+
+        <button id="clearLogs">Clear All Logs</button>
+
+        <table id="logsTable">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script src="../assets/js/utils/logger.js"></script>
+    <script src="../assets/js/utils/admin-logs.js"></script>
+</body>
+</html>
