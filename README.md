@@ -1,11 +1,3 @@
-Sure 👍
-Below is the complete, copy-paste ready README.md code exactly as it should be uploaded to GitHub.
-
-You can select all → copy → paste into README.md → commit.
-
-
----
-
 # 📚 Teacher–Student Appointment System
 
 A web-based **Teacher–Student Appointment Management System** built using **HTML, CSS, JavaScript**, and **Firebase**. This project enables students to request appointments with teachers, teachers to manage and respond to those requests, and administrators to control users and system data.
