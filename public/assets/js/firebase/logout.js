@@ -1,35 +1,36 @@
-// /assets/js/logout.js
-
-// OPTIONAL Firebase logout
-import { auth } from "./firebase.js";
+import { auth } from "../firebase/firebase.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-// Function to execute logout
-async function logoutUser() {
-  try {
-    // Remove session
-    sessionStorage.clear();
-    localStorage.clear();
+function attachLogoutHandler() {
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (!logoutBtn) return; // No button? do nothing
 
-    // Firebase sign out (if you're using auth)
-    if (auth) {
+  // Prevent multiple bindings
+  if (logoutBtn.dataset.bound) return;
+  logoutBtn.dataset.bound = "true";
+
+  logoutBtn.addEventListener("click", async (e) => {
+    e.preventDefault(); // just in case, prevents default action
+
+    try {
+      // Firebase logout
       await signOut(auth);
+
+      // Clear session / local storage
+      sessionStorage.clear();
+      localStorage.clear();
+
+      // Redirect to login
+      window.location.replace("../login.html");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      alert("Logout failed. Try again.");
     }
-
-    // Redirect to login page
-    window.location.href = "/login.html";
-
-  } catch (err) {
-    console.error("Logout error:", err);
-  }
-}
-
-// Attach event listener ONLY if logout link exists
-const logoutLink = document.getElementById("logoutLink");
-
-if (logoutLink) {
-  logoutLink.addEventListener("click", (e) => {
-    e.preventDefault(); // prevent default a-tag navigation
-    logoutUser();
   });
 }
+
+// Attach after DOM ready
+document.addEventListener("DOMContentLoaded", attachLogoutHandler);
+
+// Re-attach after navbar is injected (for fetched header)
+window.attachLogoutHandler = attachLogoutHandler;

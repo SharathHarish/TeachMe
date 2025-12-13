@@ -1,3 +1,9 @@
+<script>
+  if (!sessionStorage.getItem("userId")) {
+alert("Session expired. Please login again.");
+    window.location.replace("../login.html");
+  }
+</script>
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <header class="navbar">
@@ -6,11 +12,12 @@
     fetch("snavbar.html")
       .then(res => res.text())
       .then(html => (document.getElementById("navbar").innerHTML = html));
+ // Attach logout AFTER navbar exists
+    if (window.attachLogoutHandler) window.attachLogoutHandler();
   </script>
 </header>
 
 <main class="dashboard">
-
   <h2>Your Appointments</h2>
 
   <div class="table-container">
@@ -18,23 +25,40 @@
       <thead>
         <tr>
           <th>Teacher</th>
-             <th>Department</th>
+          <th>Department</th>
           <th>Subject</th>
           <th>Date</th>
           <th>Time</th>
           <th></th>
         </tr>
       </thead>
-
-      <tbody id="appointmentList">
-        <!-- Firebase rows will load here -->
-      </tbody>
+      <tbody id="appointmentList"></tbody>
     </table>
   </div>
-
 </main>
 
+<!-- Teacher Message Modal -->
+<div id="messageModal"
+     style="display:none;position:fixed;inset:0;
+            background:rgba(0,0,0,0.5);
+            align-items:center;justify-content:center;z-index:1000;">
+
+  <div style="background:#fff;padding:20px;
+              max-width:400px;width:90%;
+              border-radius:8px;box-shadow:0 10px 25px rgba(0,0,0,.2);">
+
+    <h3 style="margin-top:0;">Teacher's Message</h3>
+    <p id="teacherMessageText" style="margin:15px 0;"></p>
+
+    <button onclick="closeMessageModal()"
+            style="padding:6px 14px;cursor:pointer;">
+      Close
+    </button>
+  </div>
+</div>
+
 <script type="module" src="../assets/js/student/smyappoint.js"></script>
+<script type="module" src="../assets/js/firebase/logout.js"></script>
 
 <footer class="footer">
   &copy; 2025 School Management System

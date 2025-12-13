@@ -60,7 +60,7 @@ async function loadTeachers() {
     row.classList.add("teacher-row");
 
     row.innerHTML = `
-      <td class="tid">${t.teacherid}</td>
+      <td class="tid">${t.tid}</td>
       <td>${t.name}</td>
       <td>${t.department}</td>
       <td>${t.subject}</td>
@@ -267,7 +267,7 @@ form.addEventListener("submit", async e => {
     await createUserWithEmailAndPassword(auth, temail.value, password);
 
     await addDoc(collection(db, "teachers"), {
-      teacherid: tid.value,
+      tid: tid.value,
       name: tname.value,
       email: temail.value,
       password,

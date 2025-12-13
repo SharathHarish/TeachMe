@@ -23,10 +23,7 @@ async function loadTeachers() {
   const snap = await getDocs(collection(db, "teachers"));
   return snap.docs.map(doc => doc.data());
 }
-
-// --------------------------
-// Get the next AID
-// --------------------------
+//Assign AID
 async function getNextAid() {
   const q = query(
     collection(db, "appointment"),
@@ -36,13 +33,15 @@ async function getNextAid() {
 
   const snap = await getDocs(q);
 
-  if (snap.empty) return 1;
+  let nextAid = 1;
 
-  const lastAid = snap.docs[0].data().aid || 0;
+  if (!snap.empty) {
+    const lastAid = snap.docs[0].data().aid || 0;
+    nextAid = Number(lastAid) + 1;
+  }
 
-  return lastAid + 1;
+  return nextAid.toString(); // ✅ convert to string
 }
-
 // --------------------------
 // Display Teachers
 // --------------------------

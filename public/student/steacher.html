@@ -1,4 +1,9 @@
-<link rel="stylesheet" href="../assets/css/style.css">
+<script>
+  if (!sessionStorage.getItem("userId")) {
+alert("Session expired. Please login again.");
+    window.location.replace("../login.html");
+  }
+</script><link rel="stylesheet" href="../assets/css/style.css">
 
 <header class="navbar">
   <div id="navbar"></div>
@@ -6,6 +11,8 @@
     fetch("snavbar.html")
       .then(r => r.text())
       .then(d => { document.getElementById("navbar").innerHTML = d; });
+// Attach logout AFTER navbar exists
+    if (window.attachLogoutHandler) window.attachLogoutHandler();
   </script>
 </header>
 
@@ -74,6 +81,7 @@
 </main>
 
 <script type="module" src="../assets/js/student/steacher.js"></script>
+<script type="module" src="../assets/js/firebase/logout.js"></script>
 
 <footer class="footer">
   &copy; 2025 School Management System
