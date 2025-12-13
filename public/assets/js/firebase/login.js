@@ -22,7 +22,7 @@ loginForm.addEventListener('submit', async (e) => {
 
     // ---------- ADMIN LOGIN ----------
     if (email === "adminteachme@gmail.com") {
-      sessionStorage.setItem("userId", "admin");
+      sessionStorage.setItem("userId", "A000");
 
       Swal.fire({
         icon: 'success',
@@ -78,7 +78,7 @@ loginForm.addEventListener('submit', async (e) => {
       confirmButtonColor: '#4f46e5'
     }).then(() => {
       if (type === "teacher") {
-        window.location.href = "./teacher/tdashboard..html";
+        window.location.href = "./teacher/tdashboard.html";
       } else if (type === "student") {
         window.location.href = "./student/sdashboard.html";
       } else {

@@ -1,3 +1,9 @@
+<script>
+  if (!sessionStorage.getItem("userId")) {
+alert("Session expired. Please login again.");
+    window.location.replace("../login.html");
+  }
+</script>
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <header class="navbar">
@@ -23,7 +29,7 @@
  <th>Date</th>
           <th>Time</th>
           <th></th>
-           <th></th>
+           <th>Status</th>
         </tr>
       </thead>
 
@@ -36,6 +42,7 @@
 </main>
 
 <script type="module" src="../assets/js/teacher/tmyappoint.js"></script>
+<script type="module" src="../assets/js/firebase/logout.js"></script>
 
 <footer class="footer">
   &copy; 2025 School Management System

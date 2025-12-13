@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<script>
+  if (!sessionStorage.getItem("userId")) {
+alert("Session expired. Please login again.");
+    window.location.replace("../login.html");
+  }
+</script><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">

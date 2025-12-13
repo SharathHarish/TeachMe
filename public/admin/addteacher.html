@@ -1,3 +1,9 @@
+<script>
+  if (!sessionStorage.getItem("userId")) {
+alert("Session expired. Please login again.");
+    window.location.replace("../login.html");
+  }
+</script>
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <header class="navbar">
@@ -8,6 +14,8 @@
     fetch("anavbar.html")
       .then(r => r.text())
       .then(d => { document.getElementById("navbar").innerHTML = d; });
+ // Attach logout AFTER navbar exists
+    if (window.attachLogoutHandler) window.attachLogoutHandler();
   </script>
 </header>
 
