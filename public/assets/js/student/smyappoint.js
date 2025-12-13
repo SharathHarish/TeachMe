@@ -1,4 +1,4 @@
-import { db } from "../js/firebase.js";
+import { db } from "../firebase/firebase.js";
 import {
   collection,
   getDocs,
@@ -62,6 +62,7 @@ async function loadAppointments() {
 
     // Action button logic
     let actionCell = "";
+
     if (data.status === "m") {
       actionCell = `
         <button class="btn-success completeBtn"
@@ -69,7 +70,16 @@ async function loadAppointments() {
           Complete Appointment
         </button>
       `;
-    } else {
+    } 
+else if (data.status === "r") {
+      actionCell = `<span style="color: red; font-weight: bold;">Appointment Rejected</span>`;
+    } 
+else if (data.status === "a") {
+      actionCell = `<span style="color: green; font-weight: bold;">Appointment Accepted</span>`;
+     
+    }
+
+else if (data.status === "c")  {
       actionCell = `<span style="color: blue; font-weight: bold;">
                       Appointment Request Completed
                     </span>`;
@@ -83,7 +93,6 @@ async function loadAppointments() {
       <td>${teacherSub}</td>
       <td>${appDate}</td>
       <td>${data.startTime || "-"}</td>
-      <td>${data.status}</td>
       <td>${actionCell}</td>
     `;
 

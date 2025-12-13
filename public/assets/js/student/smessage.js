@@ -1,5 +1,5 @@
 // smessage.js
-import { db } from "../js/firebase.js";
+import { db } from "../firebase/firebase.js";
 import {
   doc,
   updateDoc,

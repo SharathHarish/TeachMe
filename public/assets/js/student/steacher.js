@@ -1,5 +1,5 @@
 // searchTeachers.js
-import { db } from "./firebase.js";
+import { db } from "../firebase/firebase.js";
 import {
   collection,
   getDocs,
