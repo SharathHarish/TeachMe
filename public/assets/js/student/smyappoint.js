@@ -74,7 +74,7 @@ async function loadAppointments() {
         </span>
       `;
     }
-    else if (data.status === "a") {
+    else if (data.status === "k") {
       actionCell = `
         <span style="color:green;font-weight:bold;">
           Appointment Accepted

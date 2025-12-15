@@ -46,7 +46,8 @@ async function loadAppointments() {
     const sInfo = studentMap[data.sid] || {};
     const studentName = sInfo.sname || "-";
     const studentClass = sInfo.sclass || "-";
-    const studentMessage = data.message || "-";
+const message = (data.messages || "-").trim();
+console.log("Appointment message:", message);
     const appDate = data.appDate && data.appDate.trim() !== "" ? data.appDate : "Yet to be scheduled";
 
     let actionCell = "";
@@ -65,7 +66,7 @@ async function loadAppointments() {
     tr.innerHTML = `
       <td>${studentName}</td>
       <td>${studentClass}</td>
-      <td>${studentMessage}</td>
+      <td>${message}</td>
       <td>${appDate}</td>
       <td>${data.startTime || "-"}</td>
       <td>${data.endTime || "-"}</td>
@@ -114,7 +115,7 @@ function createPopup() {
         <input type="time" id="popupEnd" style="width: 100%; padding: 8px; margin-bottom: 10px;">
         
         <label for="popupMessage">Message to Teacher:</label>
-        <textarea id="popupMessage" rows="3" style="width: 100%; padding: 8px; margin-bottom: 12px;" placeholder="Optional message to teacher"></textarea>
+        <textarea id="popupMessage" rows="3" style="width: 100%; padding: 8px; margin-bottom: 12px;" placeholder="Optional message from teacher"></textarea>
         
         <div style="display: flex; gap: 8px;">
           <button id="popupSubmit" class="btn-yellow" style="flex:1; padding: 8px;">Submit</button>
